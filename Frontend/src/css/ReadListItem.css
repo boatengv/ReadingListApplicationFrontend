@@ -1,0 +1,22 @@
+.BookItem {
+  height: 400px;
+}
+
+.BookItemImage{
+  width: 40%;
+  margin-right: 30%;
+  margin-left: 30%;
+  margin-top: 40px;
+  height: 250px;
+}
+
+h1{
+  color: #4B6F44;
+}
+
+p{
+  color: #4B6F44;
+  text-align: center;
+  padding: 5px;  
+}
+

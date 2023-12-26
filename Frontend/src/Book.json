@@ -1,0 +1,104 @@
+[
+    {
+        "book_id": "123e4567-e89b-12d3-a456-426614174000",
+        "title": "The Great Adventure",
+        "author": "Alex Johnson",
+        "state": "START"
+    },
+    {
+        "book_id": "123e4567-e89b-12d3-a456-426614174001",
+        "title": "Mystery of the Old House",
+        "author": "Sarah Smith",
+        "state": "PROGRESS"
+    },
+    {
+        "book_id": "123e4567-e89b-12d3-a456-426614174002",
+        "title": "Future Worlds",
+        "author": "Emily White",
+        "state": "DONE"
+    },
+    {
+        "book_id": "a1b2c3d4-e5f6-7g8h-9i10-j11k12l13m14",
+        "title": "Whispers of the Ancient Forest",
+        "author": "Elara Thornwood",
+        "state": "DONE"
+    },
+    {
+        "book_id": "n15o16p17-q18r19s20-t21u22v23-w24x25y26z27",
+        "title": "Stars Beyond Reach",
+        "author": "Miles Corrigan",
+        "state": "PROGRESS"
+    },
+    {
+        "book_id": "28a29b30c-31d32e33f-34g35h36i-37j38k39l40",
+        "title": "Echoes of Tomorrow",
+        "author": "Sophia Marquez",
+        "state": "START"
+    },
+    {
+        "book_id": "41m42n43o-44p45q46r-47s48t49u-50v51w52x",
+        "title": "The Last Alchemist",
+        "author": "Edward Langley",
+        "state": "DONE"
+    },
+    {
+        "book_id": "53y54z55a-56b57c58d-59e60f61g-62h63i64j",
+        "title": "Beneath the Neon Sky",
+        "author": "Ava Kimura",
+        "state": "START"
+    },
+    {
+        "book_id": "65k66l67m-68n69o70p-71q72r73s-74t75u76v",
+        "title": "Secrets of the Sand",
+        "author": "Amina Rashid",
+        "state": "PROGRESS"
+    },
+    {
+        "book_id": "77w78x79y-80z81a82b-83c84d85e-86f87g88h",
+        "title": "Gardens of the Moon",
+        "author": "Luna Clarke",
+        "state": "START"
+    },
+    {
+        "book_id": "89i90j91k-92l93m94n-95o96p97q-98r99s100t",
+        "title": "Chronicles of the Forgotten Realm",
+        "author": "Jacob Morrow",
+        "state": "PROGRESS"
+    },
+    {
+        "book_id": "101u102v103w-104x105y106z-107a108b109c-110d111e112f",
+        "title": "Lost in the Echo",
+        "author": "Grace Turner",
+        "state": "DONE"
+    },
+    {
+        "book_id": "113g114h115i-116j117k118l-119m120n121o-122p123q124r",
+        "title": "Shadow's Edge",
+        "author": "Ian Black",
+        "state": "DONE"
+    },
+    {
+        "book_id": "125s126t127u-128v129w130x-131y132z133a-134b135c136d",
+        "title": "The Ocean's Whispers",
+        "author": "Nora Walsh",
+        "state": "PROGRESS"
+    },
+    {
+        "book_id": "137e138f139g-140h141i142j-143k144l145m-146n147o148p",
+        "title": "Beyond the Horizon",
+        "author": "Ethan Hart",
+        "state": "START"
+    },
+    {
+        "book_id": "149q150r151s-152t153u154v-155w156x157y-158z159a160b",
+        "title": "The Timekeeper's Secret",
+        "author": "Molly Saunders",
+        "state": "DONE"
+    },
+    {
+        "book_id": "161c162d163e-164f165g166h-167i168j169k-170l171m172n",
+        "title": "Flight of the Falcon",
+        "author": "Derek Stone",
+        "state": "START"
+    }
+]

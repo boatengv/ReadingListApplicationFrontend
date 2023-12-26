@@ -1,0 +1,10 @@
+body{
+    background-color: #87A96B;
+}
+
+.Board {
+    width: 96%;
+    margin-right: 2%;
+    margin-left: 2%;
+    margin-top: 2%;
+}

@@ -1,0 +1,27 @@
+.grid-container {
+    display: grid;
+    background-color: #87A96B;
+    grid-template-columns: 30% 30% 30%;
+    gap: 5%;
+}
+
+.item1 {
+    background-color: #EDF5E1;
+    border-right: thick solid #1B4D3E;
+    border-left: thick solid #1B4D3E;
+    border-bottom: thick solid #1B4D3E;
+}
+
+.item2 {
+    background-color: #EDF5E1;
+    border-right: thick solid #1B4D3E;
+    border-left: thick solid #1B4D3E;
+    border-bottom: thick solid #1B4D3E;
+}
+
+.item3 {
+    background-color: #EDF5E1;
+    border-right: thick solid #1B4D3E;
+    border-left: thick solid #1B4D3E;    
+    border-bottom: thick solid #1B4D3E;
+}

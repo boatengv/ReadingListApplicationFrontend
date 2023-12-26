@@ -1,0 +1,17 @@
+.state{
+    border-bottom: thick solid #1B4D3E;
+    border-top: thick solid #1B4D3E;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    margin: 0;
+}
+
+.AddButton{
+    border-radius: 100%;
+    border: medium solid #1B4D3E;
+    height: 30px;
+    width: 30px;
+    float: right;
+    margin-right: 10px;
+}

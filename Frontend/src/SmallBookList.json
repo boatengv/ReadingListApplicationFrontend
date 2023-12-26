@@ -1,0 +1,30 @@
+[
+    {
+        "book_id": "123e4567-e89b-12d3-a456-426614174000",
+        "title": "The Great Adventure",
+        "isbn": "1950784622",
+        "author": "Alex Johnson",
+        "state": "START"
+    },
+    {
+        "book_id": "123e4567-e89b-12d3-a456-426614174001",
+        "isbn": "1950784622",
+        "title": "Mystery of the Old House",
+        "author": "Sarah Smith",
+        "state": "PROGRESS"
+    },
+    {
+        "book_id": "123e4567-e89b-12d3-a456-426614174002",
+        "isbn": "1950784622",
+        "title": "Future Worlds",
+        "author": "Emily White",
+        "state": "DONE"
+    },
+    {
+        "book_id": "a1b2c3d4-e5f6-7g8h-9i10-j11k12l13m14",
+        "isbn": "1950784622",
+        "title": "Whispers of the Ancient Forest",
+        "author": "Elara Thornwood",
+        "state": "DONE"
+    }
+]

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Modal from 'react-modal';
 
 
-export const ReadListColumn = ({studentId, state, data, onStateChange}) => {   
+export const ReadListColumn = ({url, studentId, state, data, onStateChange}) => {   
 
     const [modalIsOpen, setIsOpen] = useState(false);
     const [isbn, setISBN] = useState("")
@@ -33,7 +33,7 @@ export const ReadListColumn = ({studentId, state, data, onStateChange}) => {
         e.preventDefault();
 
         console.log("studentId = {}, isbn = {}, state = {}",studentId, isbn, state);
-        fetch(`http://localhost:8080/api/AddBook?studentId=${studentId}&isbn=${isbn}&state=${state}`,{
+        fetch(`${url}/api/AddBook?studentId=${studentId}&isbn=${isbn}&state=${state}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

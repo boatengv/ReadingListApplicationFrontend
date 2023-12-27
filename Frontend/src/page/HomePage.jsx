@@ -11,7 +11,7 @@ export const HomePage = () => {
     
     return (
         <div className="Board">
-           <ReadList studentId={location.state.key}/> 
+           <ReadList url={location.state.url} studentId={location.state.key}/> 
         </div>       
     )
 }

@@ -6,14 +6,14 @@ export const LoginForm = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-
+    const url = "https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com"
 
     const handleSubmit = (e) => {
         e.preventDefault(); 
         console.log("email submitted is:", email);
         console.log("password submitted is:", password);
 
-        fetch(`http://localhost:8080/api/GetStudentId/${email}`,{
+        fetch(`${url}/api/GetStudentId/${email}`,{
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -23,7 +23,7 @@ export const LoginForm = () => {
             return response.json();
         })
         .then((data) => {
-            navigate("/Home", {state: {key: data}});
+            navigate("/Home", {state: {key: data, url: url}});
         })
         .catch((err) => {
             console.log(err)

@@ -7,7 +7,7 @@ export const ReadList = (props) => {
     const [books, setBooks] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/GetStudentBookList/${props.studentId}`, {
+        fetch(`${props.url}/api/GetStudentBookList/${props.studentId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const ReadList = (props) => {
     })
 
     const changeBookState = (bookId, newState) => {   
-        fetch(`http://localhost:8080/api/UpdateBookState?studentId=${props.studentId}&bookId=${bookId}&newState=${newState}`,{
+        fetch(`${props.url}/api/UpdateBookState?studentId=${props.studentId}&bookId=${bookId}&newState=${newState}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -37,7 +37,8 @@ export const ReadList = (props) => {
     return (        
         <div className="grid-container">
             <div className="item1" id="start">
-                <ReadListColumn 
+                <ReadListColumn
+                    url={props.url} 
                     studentId={props.studentId}
                     state={"START"} 
                     data={books.filter(books => books.state === "START")}
@@ -46,6 +47,7 @@ export const ReadList = (props) => {
             </div>
             <div className="item2" id="progress"> 
                 <ReadListColumn 
+                    url={props.url} 
                     studentId={props.studentId}
                     state={"PROGRESS"} 
                     data={books.filter(books => books.state === "PROGRESS")}
@@ -54,6 +56,7 @@ export const ReadList = (props) => {
             </div>
             <div className="item3" id="done">
                 <ReadListColumn 
+                    url={props.url} 
                     studentId={props.studentId}
                     state={"DONE"} 
                     data={books.filter(books => books.state === "DONE")}

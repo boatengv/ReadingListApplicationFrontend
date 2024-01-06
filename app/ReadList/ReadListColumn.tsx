@@ -18,6 +18,7 @@ const ReadListColumn = (props:Props) => {
         <div className="grid grid-cols-2 gap-2 px-2 pt-4">  
           {props.book.map((book) => (
             <ReadListItem
+              key={book.bookId}
               bookId={book.bookId}
               imageUrl={book.imageUrl}
               title={book.title}

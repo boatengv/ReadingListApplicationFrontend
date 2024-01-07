@@ -3,6 +3,7 @@ import LoginForm from './components/LoginForm'
 import Logo from './components/Logo'
 import Image from 'next/image'
 
+
 const LoginPage = () => {
 
   return (

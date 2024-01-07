@@ -14,10 +14,12 @@ const config: Config = {
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
       height: {
+        '108': '28rem',
         '128': '32rem',
         '160': '40rem'
       },
       width: {
+        '108': '28rem',
         '128': '512px'
       }
     },

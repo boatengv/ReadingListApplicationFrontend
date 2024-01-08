@@ -1,4 +1,4 @@
-import Logo from "../components/Logo";
+import Logo from "../Register/Logo";
 import RegisterForm from "./RegisterForm";
 import Image from 'next/image'
 

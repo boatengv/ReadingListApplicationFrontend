@@ -1,395 +1,126 @@
+'use client';
+import { useEffect, useState } from "react";
+import { Book } from "./Book";
+import ReadListColumn from "./ReadListColumn"
+import { useRouter } from "next/navigation";
 
+interface Request {
+    studentId: string
+}
 
-const Home = () => {
+const ReadList = ({searchParams}: {searchParams: Request}) => {
 
-    return (  
-        <div>
-            <div className="flex flex-row-reverse m-4">
-                <button type="submit" className="border-2 border-black bg-blue-700 w-36 rounded-md">Add Book</button>
-                <input type="text" placeholder="Enter ISBN" className="border-2 border-black mr-2 w-72 rounded-md"></input>
+    const [books, setBooks] = useState<Book[]>([]);
+    const [isbn, setISBN] = useState("");
+    const route = useRouter();
+
+    useEffect(() => {
+
+        fetch(`http://localhost:8080/api/GetLogin/${searchParams.studentId}`,{
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+
+            if(!data){
+                route.push('/Login')
+            } 
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+
+        fetch(`http://localhost:8080/api/GetStudentBookList/${searchParams.studentId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            setBooks(data)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    })
+
+    const changeState = (studentId:string, bookId:string, newState:"START" | "PROGRESS" | "DONE") => {
+        fetch(`http://localhost:8080/api/UpdateBookState?studentId=${studentId}&bookId=${bookId}&newState=${newState}`,{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+    };
+
+    const handleISBN = (e: { target: { value: React.SetStateAction<string> } }) => {
+        setISBN(e.target.value);
+        console.log(e.target.value);
+    }
+
+    const addBook = () => {
+        fetch(`http://localhost:8080/api/AddBook?studentId=${searchParams.studentId}&isbn=${isbn}&state=${"START"}`,{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+    }
+
+    const logout = () => {
+        fetch(`http://localhost:8080/api/Logout/${searchParams.studentId}`,{
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+    }
+
+    return ( 
+        <> 
+            <div className="flex justify-between m-2 shadow-lg pt-0.5 p-4 bg-zinc-300 sticky top-0">
+                <div className="mt-2">
+                    <input type="text" value={isbn} onChange={handleISBN} placeholder="Enter ISBN" className="border-b-2 border-blue-600 rounded-l-xl w-72 p-2"></input>
+                    <button type="submit" onClick={addBook} className="w-24 bg-blue-600 hover:bg-blue-400 text-white border-2 border-blue-600 rounded-e-xl p-2">Add Book</button>
+                </div>
+                <svg onClick={logout} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 hover:w-16 cursor-pointer mt-2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                </svg>
+            </div>    
+            <div className="grid grid-cols-3 gap-0.5 mt-10">
+                <ReadListColumn
+                    columnTitle="START"
+                    studentId={searchParams.studentId}
+                    book={books.filter(books => books.state === "START")}
+                    changeState={changeState}
+                />
+
+                <ReadListColumn
+                    columnTitle="PROGRESS"
+                    studentId={searchParams.studentId}
+                    book={books.filter(books => books.state === "PROGRESS")}
+                    changeState={changeState}
+                />
+
+                <ReadListColumn
+                    columnTitle="DONE"
+                    studentId={searchParams.studentId}
+                    book={books.filter(books => books.state === "DONE")}
+                    changeState={changeState}
+                />
             </div>
-            <div className="grid grid-cols-3 gap-4 mt-10">
-                <div className="border-2 border-black ml-2">
-                    <h1 className="border-2 border-b-black text-center font-serif text-3xl py-4">START</h1> 
-                    <div className="grid grid-cols-2 gap-2 px-2 pt-4">                
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="h-64">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-full w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>    
-                    </div>
-                </div>
-            
-                <div className="border-2 border-black">
-                    <h1 className="border-2 border-b-black text-center font-serif text-3xl py-4">PROGRESS</h1> 
-                    <div className="grid grid-cols-2 gap-2 px-2 pt-4">                
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-  
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
- 
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-  
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-  
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
- 
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-  
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-start cursor-w-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>
-   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>    
-                    </div>
-                </div>
-
-                <div className="border-2 border-black mr-2">
-                    <h1 className="border-2 border-b-black text-center font-serif text-3xl py-4">DONE</h1> 
-                    <div className="grid grid-cols-2 gap-2 px-2 pt-4">                
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>
-                        <div className="border-2 border-black">  
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 float-end cursor-e-resize">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                            </svg>   
-                            <div className="">
-                                <img src="https://static.bunnycdn.ru/i/cache/images/0/02/02dd45b5aa9d4ca36a2e0804dffaac94.jpg" className="object-cover h-64 w-full"></img>
-                            </div>
-                            <h1 className="text-center">Book Title</h1>
-                            <h1 className="text-center">Book Subtitle</h1>
-                            <h1 className="text-center">Book Author</h1>
-                            <h1 className="text-center">Book Published Date</h1>  
-                        </div>    
-                    </div>
-                </div>
-            </div>  
-        </div> 
-      
+        </> 
     )
 }
 
-export default Home
+export default ReadList

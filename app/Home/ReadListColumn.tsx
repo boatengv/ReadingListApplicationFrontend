@@ -5,26 +5,27 @@ import { Book } from './Book'
 
 interface Props {
   columnTitle: string
+  studentId: string
   book: Book[]
-  changeState: (bookId:string, newState: "START" | "PROGRESS" | "DONE") => void
+  changeState: (studentId:string, bookId:string, newState: "START" | "PROGRESS" | "DONE") => void
 }
 
 const ReadListColumn = (props:Props) => {
   console.log(props.book)
 
   return (
-    <div className="border-2 border-black mx-2 pb-4">
+    <div className="border-2 border-black mx-2 pb-4 bg-zinc-300">
       <h1 className="border-2 border-b-black text-center font-serif text-3xl py-4">{props.columnTitle}</h1> 
         <div className="grid grid-cols-2 gap-2 px-2 pt-4">  
           {props.book.map((book) => (
             <ReadListItem
+              studentId={props.studentId}
               key={book.bookId}
               bookId={book.bookId}
-              imageUrl={book.imageUrl}
+              imageUrlLarge={book.imageUrlLarge}
               title={book.title}
-              subtitle={book.subtitle}
-              author={book.author}
-              publishDate={book.publishDate}
+              authors={book.authors}
+              publishedDate={book.publishedDate}
               state={book.state}
               changeState={props.changeState}
             />

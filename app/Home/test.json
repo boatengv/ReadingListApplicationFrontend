@@ -1,0 +1,26 @@
+[
+    {
+        "bookId": "5fb75547-110f-41c0-9523-6e1274b4d7e9",
+        "imageUrlLarge": "https://static.bunnycdn.ru/i/cache/images/d/da/dac0b4db67941beb376c66dfd052d7f7.jpg",
+        "title": "The Great Adventure",
+        "authors": "Emily Stone",
+        "publishedDate": "2021-05-15",
+        "state": "START"
+    },
+    {
+        "bookId":"9d212f4c-6d39-4d35-b2d0-b85edf70414d",
+        "imageUrlLarge": "https://static.bunnycdn.ru/i/cache/images/d/da/dac0b4db67941beb376c66dfd052d7f7.jpg",
+        "title": "Mysteries of the Ancient World",
+        "authors": "John Doe",
+        "publishedDate": "2019-11-10",
+        "state": "PROGRESS"
+    },
+    {
+        "bookId":"9cbc7696-1888-4f2c-a0c9-98fb1a2fd534",
+        "imageUrlLarge": "https://static.bunnycdn.ru/i/cache/images/d/da/dac0b4db67941beb376c66dfd052d7f7.jpg",
+        "title": "Future Tech",
+        "authors": "Sarah Lee",
+        "publishedDate": "2020-08-20",
+        "state": "DONE"
+    }
+]

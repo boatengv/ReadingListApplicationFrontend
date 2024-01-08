@@ -1,8 +1,7 @@
 import React from 'react'
-import LoginForm from './components/LoginForm'
-import Logo from './components/Logo'
+import LoginForm from './LoginForm'
+import Logo from './Logo'
 import Image from 'next/image'
-
 
 const LoginPage = () => {
 

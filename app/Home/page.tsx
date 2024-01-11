@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Book } from "./Book";
 import ReadListColumn from "./ReadListColumn"
 import { useRouter } from "next/navigation";
-import Logo from "../Home/Logo";
 
 interface Request {
     studentId: string
@@ -17,7 +16,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
 
     useEffect(() => {
 
-        fetch(`http://localhost:8080/api/GetLogin/${searchParams.studentId}`,{
+        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/GetLogin/${searchParams.studentId}`,{
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -37,7 +36,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
             console.log(err);
         })
 
-        fetch(`http://localhost:8080/api/GetStudentBookList/${searchParams.studentId}`, {
+        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/GetStudentBookList/${searchParams.studentId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -56,7 +55,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     })
 
     const changeState = (studentId:string, bookId:string, newState:"START" | "PROGRESS" | "DONE") => {
-        fetch(`http://localhost:8080/api/UpdateBookState?studentId=${studentId}&bookId=${bookId}&newState=${newState}`,{
+        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/UpdateBookState?studentId=${studentId}&bookId=${bookId}&newState=${newState}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -65,7 +64,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     };
 
     const removeBook = (studentId:string, bookId:string) => {
-        fetch(`http://localhost:8080/api/RemoveBook?studentId=${studentId}&bookId=${bookId}`,{
+        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/RemoveBook?studentId=${studentId}&bookId=${bookId}`,{
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
@@ -79,7 +78,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     }
 
     const addBook = () => {
-        fetch(`http://localhost:8080/api/AddBook?studentId=${searchParams.studentId}&isbn=${isbn}&state=${"START"}`,{
+        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/AddBook?studentId=${searchParams.studentId}&isbn=${isbn}&state=${"START"}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -88,7 +87,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     }
 
     const logout = () => {
-        fetch(`http://localhost:8080/api/Logout/${searchParams.studentId}`,{
+        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/Logout/${searchParams.studentId}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",

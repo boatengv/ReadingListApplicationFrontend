@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { NextRouter } from 'next/router';
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +13,7 @@ const LoginForm = () => {
       console.log("email submitted is:", email);
       console.log("password submitted is:", password);
 
-      fetch(`http://localhost:8080/api/GetStudentId/${email}`,{
+      fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/GetStudentId/${email}`,{
           method: "GET",
           headers: {
               "Content-Type": "application/json",

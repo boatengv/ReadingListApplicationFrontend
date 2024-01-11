@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Book } from "./Book";
 import ReadListColumn from "./ReadListColumn"
 import { useRouter } from "next/navigation";
+import Logo from "../Home/Logo";
 
 interface Request {
     studentId: string
@@ -63,6 +64,15 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
         })
     };
 
+    const removeBook = (studentId:string, bookId:string) => {
+        fetch(`http://localhost:8080/api/RemoveBook?studentId=${studentId}&bookId=${bookId}`,{
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+    };
+
     const handleISBN = (e: { target: { value: React.SetStateAction<string> } }) => {
         setISBN(e.target.value);
         console.log(e.target.value);
@@ -90,8 +100,8 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
         <> 
             <div className="flex justify-between m-2 shadow-lg pt-0.5 p-4 bg-zinc-300 sticky top-0">
                 <div className="mt-2">
-                    <input type="text" value={isbn} onChange={handleISBN} placeholder="Enter ISBN" className="border-b-2 border-blue-600 rounded-l-xl w-72 p-2"></input>
-                    <button type="submit" onClick={addBook} className="w-24 bg-blue-600 hover:bg-blue-400 text-white border-2 border-blue-600 rounded-e-xl p-2">Add Book</button>
+                    <input type="text" value={isbn} onChange={handleISBN} placeholder="Enter ISBN" className="!outline-none border-b-2 border-blue-600 rounded-l-xl w-72 p-2"></input>
+                    <button type="submit" onClick={addBook} className="w-24 bg-blue-600 hover:bg-blue-400 text-white border-b-2 border-blue-600 rounded-e-xl p-2">Add Book</button>
                 </div>
                 <svg onClick={logout} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10 hover:w-16 cursor-pointer mt-2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
@@ -103,6 +113,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
                     studentId={searchParams.studentId}
                     book={books.filter(books => books.state === "START")}
                     changeState={changeState}
+                    removeBook={removeBook}
                 />
 
                 <ReadListColumn
@@ -110,6 +121,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
                     studentId={searchParams.studentId}
                     book={books.filter(books => books.state === "PROGRESS")}
                     changeState={changeState}
+                    removeBook={removeBook}
                 />
 
                 <ReadListColumn
@@ -117,6 +129,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
                     studentId={searchParams.studentId}
                     book={books.filter(books => books.state === "DONE")}
                     changeState={changeState}
+                    removeBook={removeBook}
                 />
             </div>
         </> 

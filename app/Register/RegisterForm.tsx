@@ -19,19 +19,19 @@ const RegisterForm = () => {
             </div>
         
             {/*Full Name */}
-            <input type="email" placeholder="Full Name" className="border-2 border-black rounded-lg w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+            <input type="email" placeholder="Full Name" className="!outline-none border-b-2 border-black w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
             
              {/*Email Input*/}
-             <input type="email" placeholder="Email" className="border-2 border-black rounded-lg w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+             <input type="email" placeholder="Email" className="!outline-none border-b-2 border-black w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
 
             {/*Email Input*/}
-            <input type="email" placeholder="Confirm Email" className="border-2 border-black rounded-lg w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+            <input type="email" placeholder="Confirm Email" className="!outline-none border-b-2 border-black w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
         
             {/*Password Input*/}
-            <input type="password" placeholder="Password" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+            <input type="password" placeholder="Password" className="!outline-none border-b-2 border-black w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
         
             {/*Password Input*/}
-            <input type="password" placeholder="Confirm Password" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto mt-4 mb-8 text-sm sm:text-xl italic font-serif" required></input>
+            <input type="password" placeholder="Confirm Password" className="!outline-none border-b-2 border-black w-6/12 h-6 sm:h-12 block text-center mx-auto mt-4 mb-8 text-sm sm:text-xl italic font-serif" required></input>
         
             {/*Register*/}
             <button type="button" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 sm:my-8 text-sm sm:text-xl font-serif bg-red-600 hover:bg-red-400">Create Acccount</button>

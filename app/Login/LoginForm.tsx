@@ -55,10 +55,10 @@ const LoginForm = () => {
         </div>
 
         {/*Email Input*/}
-        <input type="email" value={email} onChange={handleEmail} placeholder="Email" className="border-2 border-black rounded-lg w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+        <input type="email" value={email} onChange={handleEmail} placeholder="Email" className="!outline-none border-b-2 border-black  w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
         
         {/*Password Input*/}
-        <input type="password" value={password} onChange={handlePassword} placeholder="********" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+        <input type="password" value={password} onChange={handlePassword} placeholder="********" className="!outline-none border-b-2 border-black w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
 
         {/*Login Button*/}
         <button type="submit" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto mt-8 mb-8 text-sm sm:text-xl font-serif bg-green-600 hover:bg-green-400">Login</button>

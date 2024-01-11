@@ -8,6 +8,7 @@ interface Props {
   studentId: string
   book: Book[]
   changeState: (studentId:string, bookId:string, newState: "START" | "PROGRESS" | "DONE") => void
+  removeBook: (studentId:string, bookId:string) => void
 }
 
 const ReadListColumn = (props:Props) => {
@@ -28,6 +29,7 @@ const ReadListColumn = (props:Props) => {
               publishedDate={book.publishedDate}
               state={book.state}
               changeState={props.changeState}
+              removeBook={props.removeBook}
             />
           ))}
         </div>

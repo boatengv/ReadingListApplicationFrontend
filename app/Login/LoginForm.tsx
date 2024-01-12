@@ -23,6 +23,7 @@ const LoginForm = () => {
           return response.json();
       })
       .then((data) => {
+          
           router.push(`/Home/?studentId=${data}`);
       })
       .catch((err) => {

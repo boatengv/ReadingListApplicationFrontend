@@ -1,6 +1,11 @@
 'use client';
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
+import Swal from 'sweetalert2';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+
 
 const RegisterForm = () => {
 
@@ -9,6 +14,8 @@ const RegisterForm = () => {
     const [confirmEmail, setConfirmEmail] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const router = useRouter();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -31,7 +38,7 @@ const RegisterForm = () => {
         }
 
         {/*Register Account*/}
-        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/AddStudent?name=${fullName}&email=${email}&password=${password}`,{
+        fetch(`http://localhost:8080/api/AddStudent?name=${fullName}&email=${email}&password=${password}`,{
             method: "POST",
             mode: "cors",
             headers: {
@@ -43,9 +50,23 @@ const RegisterForm = () => {
         })
         .then((data) => {
             if(data){
-                router.push(`/Login`);
+                Swal.fire({
+                    title: 'success!',
+                    text: 'Please click the Button to Sign In',
+                    icon: 'success',
+                    showDenyButton: true,
+                    confirmButtonText: 'Sign in',
+                    denyButtonText: 'Close', 
+                })
+                .then((result) => {
+                    if(result.isConfirmed){
+                        router.push(`/Login`);
+                    }
+                })
             }
-            {/* Account already exists */}
+            
+            console.log("hello")
+            showToastMessage();
             return;
         })
         .catch((err) => {
@@ -88,6 +109,13 @@ const RegisterForm = () => {
         setConfirmPassword(e.target.value)
     }
 
+    const showToastMessage = () => {
+        toast.error('Account has already been registered!', {
+            position: "top-center",
+            theme: "dark"
+        });
+    }
+
     return (
         <form onSubmit={handleSubmit}>
             <div className="border-4 border-black mx-auto mt-16 w-64 h-84 sm:my-32 sm:w-128 sm:h-128 bg-white">
@@ -110,17 +138,43 @@ const RegisterForm = () => {
                 {/*Email Input*/}
                 <input value={email} onChange={handleEmail} type="email" placeholder="Email" className="!outline-none border-b-2 border-black w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
 
-                {/*Email Input*/}
-                <input value={confirmEmail} onChange={handleConfirmEmail} type="email" placeholder="Confirm Email" className="!outline-none border-b-2 border-black w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
-            
+                {/*Confirm Email Input*/}
+                <input value={confirmEmail} onChange={handleConfirmEmail} type="email" placeholder="Confirm Email" className={`!outline-none w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif ${email === confirmEmail ? "border-b-2 border-black" : "border-b-2 border-red-600 bg-orange-300"}`} required></input>
+
                 {/*Password Input*/}
-                <input value={password} onChange={handlePassword} type="password" placeholder="Password" className="!outline-none border-b-2 border-black w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+                <div className="w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" >
+                    <div className="grid grid-cols-6 h-12 mb-4">
+                        <div className="col-start-1 col-span-5 border-black border-b-2">
+                            <input value={password} onChange={handlePassword} type={`${!showPassword ? "password" : "text" }`} placeholder="Password" className="!outline-none h-6 sm:h-12 block text-center text-sm sm:text-xl italic font-serif" required></input>
+                        </div>
+                        <div className="col-start-6 col-end-6 border-black border-b-2">
+                            <svg onClick={() => setShowPassword(!showPassword)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mx-auto mt-2 cursor-pointer">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
             
-                {/*Password Input*/}
-                <input value={confirmPassword} onChange={handleConfirmPassword} type="password" placeholder="Confirm Password" className="!outline-none border-b-2 border-black w-6/12 h-6 sm:h-12 block text-center mx-auto mt-4 mb-8 text-sm sm:text-xl italic font-serif" required></input>
-            
+                {/*Confirm Password Input*/}
+                <div className="w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" >
+                    <div className="grid grid-cols-6 h-12 mb-4">
+                        <div className={`col-start-1 col-span-5 ${password === confirmPassword ? "border-b-2 border-black" : "border-b-2 border-red-600 bg-orange-300"}`}>
+                            <input value={confirmPassword} onChange={handleConfirmPassword} type={`${!showConfirmPassword ? "password" : "text" }`} placeholder="Confirm Password" className={`!outline-none h-6 sm:h-12 block text-center text-sm sm:text-xl italic font-serif ${password === confirmPassword ? "bg-white" : "bg-orange-300"}`} required></input>
+                        </div>
+                        <div className={`col-start-6 col-span-1 ${password === confirmPassword ? "border-b-2 border-black" : "border-b-2 border-red-600 bg-orange-300"}`}>
+                            <svg onClick={() => setShowConfirmPassword(!showConfirmPassword)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mx-auto mt-2 cursor-pointer">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
                 {/*Register*/}
                 <button type="submit" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 sm:my-8 text-sm sm:text-xl font-serif bg-red-600 hover:bg-red-400">Create Acccount</button>
+            
+                <ToastContainer/>
             </div>
         </form>
     )

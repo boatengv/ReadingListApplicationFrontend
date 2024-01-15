@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -58,14 +59,32 @@ const LoginForm = () => {
         <input type="email" value={email} onChange={handleEmail} placeholder="Email" className="!outline-none border-b-2 border-black  w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
         
         {/*Password Input*/}
-        <input type="password" value={password} onChange={handlePassword} placeholder="********" className="!outline-none border-b-2 border-black w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+        <div className="w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" >
+            <div className="grid grid-cols-6 h-12 mb-4">
+                {/*Password Input*/}
+                <div className="col-start-1 col-span-5 border-black border-b-2">
+                    <input value={password} onChange={handlePassword} type={`${!showPassword ? "password" : "text" }`} placeholder="****************" className="!outline-none h-6 sm:h-12 block text-center text-sm sm:text-xl italic font-serif" required></input>
+                </div>
+                <div className="col-start-6 col-end-6 border-black border-b-2">
+                    <svg onClick={() => setShowPassword(!showPassword)} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 mx-auto mt-2 cursor-pointer">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
 
         {/*Login Button*/}
-        <button type="submit" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto mt-8 mb-8 text-sm sm:text-xl font-serif bg-green-600 hover:bg-green-400">Login</button>
-
+        <button type="submit" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto mt-8 mb-0 text-sm sm:text-xl font-serif bg-green-600 hover:bg-green-400">Login</button>
+        
+        {/*Forgotten Password Link*/}
+        <div className="mt-4">
+          <p onClick={() => router.push('/ForgotPassword')} className="text-center text-blue-600 underline mb-2 cursor-pointer">forgotten password?</p>
+        </div>
+        
         <div className="border-t-2 border-black">
           <p className="text-center mt-2 text-sm sm:text-md">Please Create Account Below</p>
-          <Link href="/Register"><button type="button" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-2 sm:my-4 text-sm sm:text-xl font-serif bg-red-600 hover:bg-red-400">Register</button></Link>
+          <Link href="/Register"><button type="button" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-2 text-sm sm:text-xl font-serif bg-red-600 hover:bg-red-400">Register</button></Link>
         </div>
       </div>
     </form>     

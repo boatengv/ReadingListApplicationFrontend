@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { Book } from "./Book";
 import ReadListColumn from "./ReadListColumn"
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import Swal from 'sweetalert2';
+
 
 interface Request {
     studentId: string
@@ -11,12 +14,11 @@ interface Request {
 const ReadList = ({searchParams}: {searchParams: Request}) => {
 
     const [books, setBooks] = useState<Book[]>([]);
-    const [isbn, setISBN] = useState("");
+    const [isbn, setISBN] = useState(""); 
     const route = useRouter();
 
     useEffect(() => {
-
-        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/GetLogin/${searchParams.studentId}`,{
+        fetch(`http://localhost:8080/api/GetLogin/${searchParams.studentId}`,{
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -26,8 +28,6 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
             return response.json();
         })
         .then((data) => {
-            console.log(data);
-
             if(!data){
                 route.push('/Login')
             } 
@@ -36,7 +36,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
             console.log(err);
         })
 
-        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/GetStudentBookList/${searchParams.studentId}`, {
+        fetch(`http://localhost:8080/api/GetStudentBookList/${searchParams.studentId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -55,7 +55,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     })
 
     const changeState = (studentId:string, bookId:string, newState:"START" | "PROGRESS" | "DONE") => {
-        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/UpdateBookState?studentId=${studentId}&bookId=${bookId}&newState=${newState}`,{
+        fetch(`http://localhost:8080/api/UpdateBookState?studentId=${studentId}&bookId=${bookId}&newState=${newState}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -64,11 +64,24 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     };
 
     const removeBook = (studentId:string, bookId:string) => {
-        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/RemoveBook?studentId=${studentId}&bookId=${bookId}`,{
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
+        Swal.fire({
+            title: 'Are you sure you want to delete book',
+            text: 'Please click continue to delete',
+            icon: 'warning',
+            showDenyButton: true,
+            confirmButtonText: 'Continue',
+            denyButtonText: 'Cancel', 
+        })
+        .then((result) => {
+            if(result.isConfirmed){            
+                fetch(`http://localhost:8080/api/RemoveBook?studentId=${studentId}&bookId=${bookId}`,{
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json",
+                    }
+                }) 
+                Swal.fire("Book has been Deleted", "", "success");  
+            } 
         })
     };
 
@@ -78,16 +91,31 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     }
 
     const addBook = () => {
-        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/AddBook?studentId=${searchParams.studentId}&isbn=${isbn}&state=${"START"}`,{
+        fetch(`http://localhost:8080/api/AddBook?studentId=${searchParams.studentId}&isbn=${isbn}&state=${"START"}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             }
         })
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            {/* if book cannot be added*/}
+            if(!data){
+                toast.error('Book could not be found, please try another ISBN', {
+                    position: "top-center",
+                    theme: "dark"
+                });
+            }
+        })
+        .catch((err) => {
+
+        })
     }
 
     const logout = () => {
-        fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/Logout/${searchParams.studentId}`,{
+        fetch(`http://localhost:8080/api/Logout/${searchParams.studentId}`,{
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -131,6 +159,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
                     removeBook={removeBook}
                 />
             </div>
+            <ToastContainer/>
         </> 
     )
 }

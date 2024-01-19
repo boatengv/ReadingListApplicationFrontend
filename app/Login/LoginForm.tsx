@@ -2,6 +2,9 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { compareSync } from 'bcrypt-ts'
+import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
@@ -14,7 +17,7 @@ const LoginForm = () => {
       console.log("email submitted is:", email);
       console.log("password submitted is:", password);
 
-      fetch(`https://readlistapplicationbackend-0f5ae867c6ce.herokuapp.com/api/GetStudentId/${email}`,{
+      fetch(`http://localhost:8080/api/GetStudentId/${email}`,{
           method: "GET",
           headers: {
               "Content-Type": "application/json",
@@ -24,14 +27,34 @@ const LoginForm = () => {
           return response.json();
       })
       .then((data) => {
-          
-          router.push(`/Home/?studentId=${data}`);
+        console.log(data)
+
+        {/*Entered the wrong email*/}
+        if(!data.studentId && !data.password && !data.salt){
+          toast.error('You have entered the wrong Email', {
+            position: "top-center",
+            theme: "dark"
+          });
+          return;
+        }
+
+        {/*Entered the wrong password*/}
+        if(!compareSync(password, data.password)){
+          toast.error('You have entered the wrong Password', {
+            position: "top-center",
+            theme: "dark"
+          });
+          return
+        } 
+
+        {/*Go to the Home Page*/}
+        router.push(`/Home/?studentId=${data.studentId}`);
       })
       .catch((err) => {
           console.log(err)
       })
   }
-  
+
   const handleEmail = (e: { target: { value: React.SetStateAction<string> } }) => {
       setEmail(e.target.value)
   }
@@ -87,6 +110,7 @@ const LoginForm = () => {
           <Link href="/Register"><button type="button" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-2 text-sm sm:text-xl font-serif bg-red-600 hover:bg-red-400">Register</button></Link>
         </div>
       </div>
+      <ToastContainer/>
     </form>     
   )
 }

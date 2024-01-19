@@ -2,10 +2,9 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
-import { Bounce, ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import { genSaltSync, hashSync } from "bcrypt-ts";
 import "react-toastify/dist/ReactToastify.css";
-
-
 
 const RegisterForm = () => {
 
@@ -33,12 +32,16 @@ const RegisterForm = () => {
         }
 
         if(password !== confirmPassword){
-            console.log("password does not match confirm password")
+            console.log("password does not match confirm password");
             return;
         }
 
+        {/*hashing the password before storing DB*/}
+        const salt = genSaltSync(10);
+        const hashed_password = hashSync(password, salt);
+
         {/*Register Account*/}
-        fetch(`http://localhost:8080/api/AddStudent?name=${fullName}&email=${email}&password=${password}`,{
+        fetch(`http://localhost:8080/api/AddStudent?name=${fullName}&email=${email}&password=${hashed_password}&salt=${salt}`,{
             method: "POST",
             mode: "cors",
             headers: {
@@ -63,24 +66,17 @@ const RegisterForm = () => {
                         router.push(`/Login`);
                     }
                 })
+            } else {
+                toast.error('Account has already been registered!', {
+                    position: "top-center",
+                    theme: "dark"
+                });
+                return;
             }
-            
-            console.log("hello")
-            showToastMessage();
-            return;
         })
         .catch((err) => {
             console.log(err)
         })
-        
-        {/*Account successfully been registered notfication*/}
-
-
-        {/*sleep for little*/}
-
-
-        {/*Redirect to Login page*/}
-
     }
 
     const handleFullName = (e: { target: { value: React.SetStateAction<string>; }; }) => {
@@ -107,13 +103,6 @@ const RegisterForm = () => {
 
     const handleConfirmPassword = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setConfirmPassword(e.target.value)
-    }
-
-    const showToastMessage = () => {
-        toast.error('Account has already been registered!', {
-            position: "top-center",
-            theme: "dark"
-        });
     }
 
     return (
@@ -172,10 +161,9 @@ const RegisterForm = () => {
                 </div>
 
                 {/*Register*/}
-                <button type="submit" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 sm:my-8 text-sm sm:text-xl font-serif bg-red-600 hover:bg-red-400">Create Acccount</button>
-            
-                <ToastContainer/>
+                <button type="submit" className="border-2 border-black rounded-lg w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 sm:my-8 text-sm sm:text-xl font-serif bg-red-600 hover:bg-red-400">Create Acccount</button>      
             </div>
+            <ToastContainer/>
         </form>
     )
 }

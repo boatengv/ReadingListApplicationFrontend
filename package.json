@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "ReadingListApplicationFrontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "bcrypt-ts": "^5.0.1",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",

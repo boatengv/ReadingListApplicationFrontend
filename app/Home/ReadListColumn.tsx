@@ -12,25 +12,28 @@ interface Props {
 }
 
 const ReadListColumn = (props:Props) => {
-  console.log(props.book)
 
   return (
-    <div className="border-2 border-black mx-2 pb-4 bg-zinc-300">
-      <h1 className="border-2 border-b-black text-center font-serif text-3xl py-4">{props.columnTitle}</h1> 
+    <div className="border-2 border-dark-brown mx-2 pb-4 bg-golden-brown">
+      <h1 className="border-b-2 border-dark-brown text-center text-dark-brown font-serif text-3xl py-4">{props.columnTitle}</h1> 
         <div className="grid grid-cols-2 gap-2 px-2 pt-4">  
           {props.book.map((book) => (
             <ReadListItem
               studentId={props.studentId}
               key={book.bookId}
               bookId={book.bookId}
-              imageUrlLarge={book.imageUrlLarge}
+              thumbnail={book.thumbnail}
               title={book.title}
               authors={book.authors}
               publishedDate={book.publishedDate}
               state={book.state}
+              description={book.description} 
+              categories={book.categories} 
+              pageCount={book.pageCount} 
+              publisher={book.publisher}  
               changeState={props.changeState}
-              removeBook={props.removeBook}
-            />
+              removeBook={props.removeBook} 
+              />
           ))}
         </div>
     </div>

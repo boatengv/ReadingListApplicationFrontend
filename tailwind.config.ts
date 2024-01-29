@@ -8,6 +8,12 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        'golden-brown': '#F2D9A1',
+        'dark-brown': '#381E0F',
+        'light-brown': '#ECAF6C',
+        'black-rgba': 'rgba(0, 0, 0, 0.5)'
+      },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic':

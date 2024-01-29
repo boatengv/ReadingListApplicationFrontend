@@ -1,12 +1,14 @@
+import { ImageLinks } from "./ImageLinks";
+
 export interface Book{
-    authors: string,
     bookId: string,
-    imageUrlLarge: string,
-    imageUrlMedium: string,
-    imageUrlSmall: string,
-    isbn: string,
+    title: string,
+    thumbnail: string,
+    description: string,
+    authors: string, 
+    categories: string, 
+    pageCount: number, 
+    publisher:string, 
     publishedDate: string,
-    state: "START" | "PROGRESS" | "DONE"
-    subtitle: string,
-    title: string
+    state: "START" | "PROGRESS" | "DONE"    
 }

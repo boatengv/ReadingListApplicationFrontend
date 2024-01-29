@@ -1,23 +1,27 @@
 'use client';
 import React from 'react'
+import { ImageLinks } from './ImageLinks';
 
-interface Props{
+interface ReadListItemProps{
   studentId: string
-  bookId: string
-  imageUrlLarge: string,
-  title: string, 
-  authors: string,
+  bookId: string,
+  title: string,
+  thumbnail: string,
+  description: string,
+  authors: string, 
+  categories: string, 
+  pageCount: number, 
+  publisher:string, 
   publishedDate: string,
-  state: "START" | "PROGRESS" | "DONE"
+  state: "START" | "PROGRESS" | "DONE" 
   changeState: (studentId:string, bookId:string, newState: "START" | "PROGRESS" | "DONE") => void
   removeBook: (studentId:string, bookId:string) => void
 }
 
-const ReadListItem = (props:Props) => {
+const ReadListItem = (props:ReadListItemProps) => {
 
   return (
     <div className="border-2 border-black"> 
-    
       {
         props.state === "START" &&
         <div className="flex justify-between">
@@ -56,7 +60,7 @@ const ReadListItem = (props:Props) => {
       }
 
       <div className="">
-          <img src={props.imageUrlLarge} className="object-cover h-68 w-full"></img>
+          <img src={props.thumbnail} className="object-cover h-68 w-full"></img>
       </div>
       <h1 className="text-center">{props.title}</h1>
       <h1 className="text-center">{props.authors}</h1>

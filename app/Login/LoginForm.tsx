@@ -14,9 +14,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault(); 
-      console.log("email submitted is:", email);
-      console.log("password submitted is:", password);
-
+  
       fetch(`http://localhost:8080/api/GetStudentId/${email}`,{
           method: "GET",
           headers: {
@@ -27,7 +25,6 @@ const LoginForm = () => {
           return response.json();
       })
       .then((data) => {
-        console.log(data)
 
         {/*Entered the wrong email*/}
         if(!data.studentId && !data.password && !data.salt){
@@ -79,7 +76,7 @@ const LoginForm = () => {
         </div>
 
         {/*Email Input*/}
-        <input type="email" value={email} onChange={handleEmail} placeholder="Email" className="!outline-none border-b-2 border-black  w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
+        <input type="email" value={email} onChange={handleEmail} placeholder="Email" className="!outline-none border-b-2 border-black w-6/12 sm:w-64 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" required></input>
         
         {/*Password Input*/}
         <div className="w-6/12 h-6 sm:h-12 block text-center mx-auto my-4 text-sm sm:text-xl italic font-serif" >

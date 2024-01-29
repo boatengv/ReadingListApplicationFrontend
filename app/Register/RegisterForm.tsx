@@ -20,19 +20,11 @@ const RegisterForm = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
 
-        console.log(fullName)
-        console.log(email)
-        console.log(confirmEmail)
-        console.log(password)
-        console.log(confirmPassword)
-
         if(email !== confirmEmail){
-            console.log("email does not match confirmation email")
             return;
         }
 
         if(password !== confirmPassword){
-            console.log("password does not match confirm password");
             return;
         }
 
@@ -89,16 +81,10 @@ const RegisterForm = () => {
 
     const handleConfirmEmail = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setConfirmEmail(e.target.value)
-        if(email !== confirmEmail){
-            console.log("email is not the same")
-        }
     }
 
     const handlePassword = (e: { target: { value: React.SetStateAction<string>; }; }) => {
         setPassword(e.target.value)
-        if(password !== confirmPassword){
-            console.log("email is not the same")
-        }
     }
 
     const handleConfirmPassword = (e: { target: { value: React.SetStateAction<string>; }; }) => {

@@ -1,7 +1,7 @@
 'use client';
 import React from 'react'
 import ReadListItem from './ReadListItem'
-import { Book } from './Book'
+import { Book } from '../interface/Book'
 
 interface Props {
   columnTitle: string
@@ -14,7 +14,7 @@ interface Props {
 const ReadListColumn = (props:Props) => {
 
   return (
-    <div className="border-2 border-dark-brown mx-2 pb-4 bg-golden-brown">
+    <div className="border-2 border-dark-brown mx-2 pb-4 bg-gray-300 mb-2">
       <h1 className="border-b-2 border-dark-brown text-center text-dark-brown font-serif text-3xl py-4">{props.columnTitle}</h1> 
         <div className="grid grid-cols-2 gap-2 px-2 pt-4">  
           {props.book.map((book) => (

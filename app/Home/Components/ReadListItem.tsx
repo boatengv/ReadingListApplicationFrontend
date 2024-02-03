@@ -1,6 +1,6 @@
 'use client';
 import React from 'react'
-import { ImageLinks } from './ImageLinks';
+import { ImageLinks } from '../interface/ImageLinks';
 
 interface ReadListItemProps{
   studentId: string

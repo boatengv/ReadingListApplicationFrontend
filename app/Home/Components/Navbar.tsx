@@ -1,10 +1,10 @@
 import React from 'react'
 
-function Logo() {
+const Navbar = () => {
   return (
-    <div className="w-26 h-12">
+    <div className="bg-gray-300">
         {/* Logo */}
-        <div className="flex flex-row">
+        <div className="flex flex-row border-b-4 border-black">
         <div>
             <h1 className='text-3xl italic font-serif m-4'>Read A List </h1>
         </div>
@@ -18,4 +18,4 @@ function Logo() {
   )
 }
 
-export default Logo
+export default Navbar

@@ -63,6 +63,7 @@ const LoginForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <div className="border-4 border-black mx-auto mt-16 w-64 h-80 sm:my-32 sm:w-128 sm:h-108 bg-white">
+        
         {/*Login Form Header*/}
         <div className="flex flex-row sm:ml-12 mt-2 mb-8">
           <div>

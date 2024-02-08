@@ -56,14 +56,12 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     
     return ( 
         <div className="h-dvh flex flex-col"> 
-            <div className="">
-                <Navbar/> 
-            </div>
-            <div className="grid grid-cols-10 grid-rows-1" style={{"height":"720px"}}>
+            <Navbar studentId={searchParams.studentId}/> 
+            <div className="grid grid-cols-10" style={{"height":"720px"}}>
                 <div className="col-span-2">
                     <Filter/>
                 </div>
-                <div className="col-span-8 ">
+                <div className="col-span-8">
                     <ReadingListBoard studentId={searchParams.studentId} books={books}/>
                 </div>      
             </div>

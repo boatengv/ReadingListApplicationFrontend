@@ -2,7 +2,7 @@
 import React from 'react'
 import { useRouter } from 'next/navigation';
 
-const Logo = () => {
+const Navbar = () => {
   
   const route = useRouter()
 
@@ -29,4 +29,4 @@ const Logo = () => {
   )
 }
 
-export default Logo
+export default Navbar

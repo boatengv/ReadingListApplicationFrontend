@@ -14,8 +14,8 @@ interface Props {
 const ReadListColumn = (props:Props) => {
 
   return (
-    <div className="border-2 border-dark-brown mx-2 pb-4 bg-gray-300 mb-2">
-      <h1 className="border-b-2 border-dark-brown text-center text-dark-brown font-serif text-3xl py-4">{props.columnTitle}</h1> 
+    <div className="mx-2 pb-4 mb-2">
+      <h1 className="border-b-2 border-2 border-black rounded-3xl text-center text-dark-brown font-serif text-3xl py-4">{props.columnTitle}</h1> 
         <div className="grid grid-cols-2 gap-2 px-2 pt-4">  
           {props.book.map((book) => (
             <ReadListItem

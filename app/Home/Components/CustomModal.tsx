@@ -11,8 +11,6 @@ interface ModalProps{
 
 const Modal = (props: ModalProps) => {
 
-    console.log(props.book.title.length * 18)
-
     return ( 
         <section className="fixed top-0 right-0 bottom-0 left-0 bg-black-rgba flex items-center justify-center">
             <div className='flex flex-row absolute w-1/2 h-4/6 h left-6/10 transform -translate-x-1/2 bg-gray-300 border-4 border-black'>
@@ -31,7 +29,7 @@ const Modal = (props: ModalProps) => {
                             <p className='text-black text-center'>{props.book.authors.join(', ')}</p> 
                         </div>
                         }
-                        { props.book.pageCount &&
+                        {props.book.pageCount &&
                         <div className='py-1'>
                             <h1 className='text-black text-center font-bold'>Pages:</h1> 
                             <p className='text-black text-center'>{props.book.pageCount}</p> 

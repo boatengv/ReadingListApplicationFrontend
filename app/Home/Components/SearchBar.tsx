@@ -50,9 +50,9 @@ const SearchBar = (param: Param) => {
             <div className="block mx-auto">    
                 
                 {/* Search Bar */} 
-                <div className=" flex flex-row border-b-2 border-black shadow-lg">
+                <div className="flex border-b-2 border-black shadow-lg">
                     <div className="">
-                    <input 
+                        <input 
                             type="text" value={book} onChange={handleBook}  
                             className="!outline-none placeholder-black text-3xl placeholder:italic placeholder:font-bold w-128" 
                             placeholder="Search For books by title, author,..." >
@@ -63,11 +63,10 @@ const SearchBar = (param: Param) => {
                             <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
                         </svg>  
                     </div>         
-                </div>    
-
+                </div> 
+                    
                 {/*SearchList*/}
-                {
-                book.length !== 0 &&
+                {book.length !== 0 &&
                 <div className={`mt-2 absolute ${searchList.length > 0 ? "border-2 border-black" : ""}`}>
                     {searchList.map((item, index) => { 
                         return (

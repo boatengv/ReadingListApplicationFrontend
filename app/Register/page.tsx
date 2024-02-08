@@ -1,4 +1,4 @@
-import Logo from "../Register/Logo";
+import Logo from "./Navbar";
 import RegisterForm from "./RegisterForm";
 import Image from 'next/image'
 

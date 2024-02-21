@@ -85,8 +85,8 @@ const Navbar = () => {
             type="email" 
             value={email} 
             onChange={handleEmail} 
-            placeholder="Email" 
-            className="!outline-none h-12 border-2 border-black rounded-xl text-center text-xl italic font-serif mr-4" 
+            placeholder="Email Address" 
+            className="!outline-none h-12 border-2 border-black rounded-xl text-center text-xl italic font-serif w-64 mr-4" 
             required
           >
           </input>
@@ -99,7 +99,7 @@ const Navbar = () => {
                     onChange={handlePassword} 
                     type={`${!showPassword ? "password" : "text" }`} 
                     placeholder="****************" 
-                    className="!outline-none text-center text-xl italic font-serif mt-3" 
+                    className="!outline-none text-center text-xl italic font-serif mt-2 rounded-xl" 
                     required
                   >
                   </input>
@@ -115,6 +115,7 @@ const Navbar = () => {
           {/*Login Button*/}
           <button type="submit" className="border-2 border-black rounded-lg w-36 h-12 text-center text-xl font-serif bg-blue-600 hover:bg-blue-400">Login</button>
         </div>
+        <ToastContainer/>
       </form> 
     </div>
   )

@@ -10,7 +10,7 @@ interface Props{
 }
 
 const ReadingListBoard = (props:Props) => {
-  
+    
     const changeState = (studentId:string, bookId:string, newState:"START" | "PROGRESS" | "DONE") => {
         fetch(`http://localhost:8080/api/UpdateBookState?studentId=${studentId}&bookId=${bookId}&newState=${newState}`,{
             method: "PUT",
@@ -44,8 +44,6 @@ const ReadingListBoard = (props:Props) => {
   
     return (
     <>
-        <SearchBar studentId={props.studentId}/>
-
         <div className="grid grid-cols-3 gap-0.5">
             <ReadListColumn
                 columnTitle="START"

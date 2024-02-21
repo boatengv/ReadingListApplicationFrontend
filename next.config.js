@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = { 
+    images: {
+      domains: ['books.google.com'],
+    },
     async redirects() {
     return [
       {

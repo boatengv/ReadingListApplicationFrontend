@@ -17,7 +17,6 @@ const SearchBar = (param: Param) => {
     const [openBook, setOpenBook] = useState<newBook>()
 
     const handleBook = (e: { target: { value: React.SetStateAction<string> } }) => {
-        console.log("input search param is ",e.target.value)
         setBook(e.target.value)
         getBooks(e.target.value)
     }
@@ -46,14 +45,15 @@ const SearchBar = (param: Param) => {
     }
 
     return (        
-        <div className="flex pt-20 py-12"> 
+        <div className="flex pt-8 py-10"> 
             <div className="block mx-auto">    
                 
                 {/* Search Bar */} 
                 <div className="flex border-b-2 border-black shadow-lg">
                     <div className="">
                         <input 
-                            type="text" value={book} onChange={handleBook}  
+                            type="text" value={book} 
+                            onChange={handleBook}  
                             className="!outline-none placeholder-black text-3xl placeholder:italic placeholder:font-bold w-128" 
                             placeholder="Search For books by title, author,..." >
                         </input>  

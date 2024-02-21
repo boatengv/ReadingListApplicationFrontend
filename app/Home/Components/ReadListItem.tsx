@@ -1,6 +1,7 @@
 'use client';
 import React from 'react'
-import { ImageLinks } from '../interface/ImageLinks';
+import Image from 'next/image'
+
 
 interface ReadListItemProps{
   studentId: string
@@ -21,7 +22,7 @@ interface ReadListItemProps{
 const ReadListItem = (props:ReadListItemProps) => {
 
   return (
-    <div className="border-2 border-black"> 
+    <div className="border-2 border-black rounded-xl h-80 overflow-hidden text-ellipsis">
       {
         props.state === "START" &&
         <div className="flex justify-between">
@@ -59,12 +60,10 @@ const ReadListItem = (props:ReadListItemProps) => {
         </div>
       }
 
-      <div className="">
-          <img src={props.thumbnail} className="object-cover h-68 w-full"></img>
-      </div>
+      <img src={props.thumbnail} className="object-contain h-48 w-full"></img>
       <h1 className="text-center">{props.title}</h1>
       <h1 className="text-center">{props.authors}</h1>
-      <h1 className="text-center">{props.publishedDate}</h1>  
+      <h1 className="text-center ">{props.publishedDate}</h1> 
     </div>
   ) 
 }

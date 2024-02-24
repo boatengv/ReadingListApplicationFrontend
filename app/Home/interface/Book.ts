@@ -1,5 +1,3 @@
-import { ImageLinks } from "./ImageLinks";
-
 export interface Book{
     bookId: string,
     title: string,
@@ -10,5 +8,6 @@ export interface Book{
     pageCount: number, 
     publisher:string, 
     publishedDate: string,
-    state: "START" | "PROGRESS" | "DONE"    
-}
+    state: "START" | "PROGRESS" | "DONE", 
+    timestamp: number
+}  

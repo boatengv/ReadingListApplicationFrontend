@@ -5,7 +5,8 @@ import { listOfCategories } from '../Categories';
 interface Props{
   filterByColumn: (column:string) => void,
   filterBySearch: (query:string) => void,
-  filterByCategories: (categoryList: Map<string, boolean>) => void
+  filterByCategories: (categoryList: Map<string, boolean>) => void,
+  sortBy: (sortType: string) => void
 }
 
 const Filter = (props: Props) => {
@@ -28,6 +29,10 @@ const Filter = (props: Props) => {
   const filterByCategories = (e: {target: any}) => {
     searchCategories.set(e.target.value, e.target.checked)
     props.filterByCategories(searchCategories)
+  }
+
+  const sortBy = (e: {target: any}) => {
+    props.sortBy(e.target.value)
   }
 
   return (
@@ -62,7 +67,24 @@ const Filter = (props: Props) => {
             <div className="mt-12">
               <Accordion>
                 <AccordionItem key="1" aria-label="Accordion 1" title="Sort By">
-                
+                  <ul>     
+                    <li key="alphabetic ascending">
+                        alphabetic ascending
+                        <input value={"alphabetic ascending"} type="radio" onClick={sortBy} name="sortby"></input>
+                    </li> 
+                    <li key="alphabetic descending">
+                      alphabetic descending
+                      <input value={"alphabetic descending"} type="radio" onClick={sortBy} name="sortby"></input>
+                    </li> 
+                    <li key="newest">
+                      newest
+                      <input value={"newest"} type="radio" onClick={sortBy} name="sortby"></input>
+                    </li> 
+                    <li key="oldest">
+                      oldest
+                      <input value={"oldest"} type="radio" onClick={sortBy} name="sortby"></input>
+                    </li> 
+                  </ul>
                 </AccordionItem>
                 <AccordionItem key="2" aria-label="Accordion 2" title="Categories">
                   <ul>

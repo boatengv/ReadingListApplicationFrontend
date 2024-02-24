@@ -2,7 +2,7 @@
 import { useState } from "react";
 import React from 'react'
 import { newBook } from "../interface/newBook";
-import Modal from "./CustomModal";
+import AddBookModal from "./AddBookModal";
 
 
 export interface Param{
@@ -93,7 +93,7 @@ const SearchBar = (param: Param) => {
 
             {
                 showModal && openBook &&
-                <Modal 
+                <AddBookModal 
                     book={openBook} 
                     closeModal={closeAddOpenBookModal}  
                     studentId = {param.studentId}                

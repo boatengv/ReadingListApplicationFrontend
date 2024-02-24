@@ -18,6 +18,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
     const [books, setBooks] = useState<Book[]>([]);
     const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);    
     const [searchQuery, setSearchQuery] = useState("")
+    const [sortType, setSortType] = useState("")
     const [currentFilterColumn, setCurrentFilterColumn] = useState("ALL");    
     const [CurrentFilterCategories, setCurrentFilterCategories] = useState<Map<string, boolean>>(listOfCategories)
     const route = useRouter();
@@ -46,6 +47,7 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
         // Apply filtering whenever books state changes
         filterByColumn(currentFilterColumn);
         filterByCategories(CurrentFilterCategories);
+        
     }, [books]); // Add books as a dependency
 
 
@@ -94,16 +96,20 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
         setSearchQuery(query)
     }  
 
+    const sortBy = (sortType: string) => {
+        setSortType(sortType)
+    }
+
     return ( 
         <div className="h-dvh flex flex-col"> 
             <Navbar studentId={searchParams.studentId}/> 
             <div className="grid grid-cols-10" style={{"height":"720px"}}>
                 <div className="col-span-2">
-                    <Filter filterByColumn={filterByColumn} filterBySearch={filterBySearch} filterByCategories={filterByCategories}/>
+                    <Filter filterByColumn={filterByColumn} filterBySearch={filterBySearch} filterByCategories={filterByCategories} sortBy={sortBy}/>
                 </div>
                 <div className="col-span-8">
                     <SearchBar studentId={searchParams.studentId}/>
-                    <ReadingListBoard studentId={searchParams.studentId} books={filteredBooks}/>
+                    <ReadingListBoard studentId={searchParams.studentId} books={filteredBooks} sortType={sortType}/>
                 </div>      
             </div>
             <ToastContainer/>

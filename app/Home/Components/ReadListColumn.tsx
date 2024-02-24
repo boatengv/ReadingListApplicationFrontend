@@ -9,7 +9,7 @@ interface Props {
   studentId: string
   book: Book[], 
   changeState: (studentId:string, bookId:string, newState: "START" | "PROGRESS" | "DONE") => void
-  removeBook: (studentId:string, bookId:string) => void
+  removeBook: (studentId:string, bookId:string, bookTitle:string) => void
 }
 
 

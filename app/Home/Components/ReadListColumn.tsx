@@ -37,9 +37,10 @@ const ReadListColumn = (props:Props) => {
               publishedDate={book.publishedDate}
               state={book.state}
               description={book.description} 
-              categories={book.categories} 
+              category={book.category} 
               pageCount={book.pageCount} 
               publisher={book.publisher}  
+              avg_review={book.avg_review}
               changeState={props.changeState}
               removeBook={props.removeBook} 
               />

@@ -1,11 +1,10 @@
-export const addBook = (studentId: string, title: string, thumbnail: string, authors: string, categories: string, pageCount: number, publisher: string, publishedDate: string, state: string, description: string) => {
-    
-    fetch(`http://localhost:8080/api/AddBook?studentId=${studentId}&title=${title}&thumbnail=${encodeURIComponent(thumbnail)}&authors=${authors}&categories=${categories}&page_count=${pageCount}&publisher=${publisher}&publishedDate=${publishedDate}&state=${state}&description=${description}&timestamp=${Date.now()}`,{
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json",
-          }
-    })
+export const addBook = (bookId: string, studentId: string, title: string, authors: string, publisher: string, publishedDate: string,  pageCount: number,  category: string, description: string, thumbnail: string) => {
 
+    fetch(`http://localhost:8080/api/AddBook?bookId=${bookId}&studentId=${studentId}&title=${title}&authors=${authors}&publisher=${publisher}&publishedDate=${publishedDate}&pageCount=${pageCount}&category=${category}&description=${description}&thumbnail=${encodeURIComponent(thumbnail)}&timestamp=${Date.now()}`,{
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    })
 }
 

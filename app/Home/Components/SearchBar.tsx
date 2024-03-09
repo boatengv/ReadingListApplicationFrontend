@@ -31,7 +31,11 @@ const SearchBar = (param: Param) => {
             data = await response.json();       
         }
 
-        const bookList = data.items ?  data.items.map((book: any) => {return book.volumeInfo;}): []  
+        const bookList = data.items ? data.items.map((book: any) => {
+            book.volumeInfo["id"]=book.id
+            return book.volumeInfo;
+        }): []  
+        console.log(bookList)
         setSearchList(bookList)
     };
 

@@ -64,7 +64,7 @@ const AddBookModal = (props: ModalProps) => {
                         <button type="submit" onClick={props.closeModal} className="border-4 border-black rounded-lg w-5/12 h-6 sm:h-12 text-dark-brown text-center mx-auto my-4 sm:my-6 text-sm sm:text-xl font-serif bg-red-600 hover:bg-red-400">Close</button>      
                         <button 
                             type="submit" 
-                            onClick={() => addBook(props.studentId, props.book.title, props.book.imageLinks.thumbnail, props.book.authors.join(","), props.book.categories.join(", "), props.book.pageCount, props.book.publisher, props.book.publishedDate, "START", props.book.description)} 
+                            onClick={() =>  addBook(props.book.id, props.studentId, props.book.title, props.book.authors.join(","), props.book.publisher, props.book.publishedDate, props.book.pageCount, props.book.categories.join(", "), props.book.description, props.book.imageLinks.thumbnail)}     
                             className="border-4 border-black rounded-lg w-5/12 h-6 sm:h-12 text-dark-brown text-center mx-auto my-4 sm:my-6 text-sm sm:text-xl font-serif bg-green-600 hover:bg-green-400">Add Book
                         </button>      
                     </div>

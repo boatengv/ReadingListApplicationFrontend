@@ -14,13 +14,14 @@ interface ReadListItemProps{
   thumbnail: string,
   description: string,
   authors: string, 
-  categories: string, 
+  category: string, 
   pageCount: number, 
   publisher:string, 
   publishedDate: string,
   state: "START" | "PROGRESS" | "DONE" 
   changeState: (studentId:string, bookId:string, newState: "START" | "PROGRESS" | "DONE") => void
-  removeBook: (studentId:string, bookId:string, bookTitle:string) => void
+  removeBook: (studentId:string, bookId:string, bookTitle:string) => void,
+  avg_review: number
 }
 
 const ReadListItem = (props:ReadListItemProps) => {
@@ -38,6 +39,19 @@ const ReadListItem = (props:ReadListItemProps) => {
       setOnRate(!onRate)
     }
     console.log(onRate)
+  }
+
+  const rateBook = (rating: number | null) => {
+    console.log(props.bookId)
+    console.log(props.studentId)
+    console.log(rating)
+    console.log(props.avg_review);
+    fetch(`http://localhost:8080/api/RateBook?bookId=${props.bookId}&studentId=${props.studentId}&review=${rating}`,{
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json",
+      }
+    })
   }
 
   return (
@@ -106,17 +120,18 @@ const ReadListItem = (props:ReadListItemProps) => {
                       {/* Audio book */}
                       {/* <Tab key="Similar books" title="Videos"/> */}
                     </Tabs>
-                    <div className='flex mx-auto'>
-                      {!onRate ? <Rating value={0} size="large" className='mx-2'  readOnly/> : <Rating value={0} size="large" className='mx-2'/>}
-                      {!onRate && <Button 
+                    <div className='flex mx-auto items-end'>
+                      {!onRate ? <Rating value={props.avg_review} size="large" className='mx-2' precision={0.1} readOnly/> : <Rating value={0} size="large" className='mx-2' precision={0.1} onChange={(event, newValue) => rateBook(newValue)}/>}
+                      <h1>[{props.avg_review} ___ reviewers]</h1>
+                      
+                    </div>
+                      {/* {!onRate && <Button 
                         color='primary' 
                         className='w-12 mx-2'
                         onClick={() => handleRating(onRate)}
                       >
                           Rate
-                        </Button>}
-                    </div>
-                     
+                        </Button>} */}
                     <Divider className='my-4'></Divider>
                   
                     {

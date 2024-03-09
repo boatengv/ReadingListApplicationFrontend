@@ -55,20 +55,25 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
 
         setCurrentFilterColumn(column);
 
+        if(!books){
+            return 
+        } 
+
         switch(column){
             case "ALL": 
-                setFilteredBooks(books.filter((book) => (book.state === "START" || book.state === "PROGRESS" || book.state === "DONE") && book.title.includes(searchQuery) && CurrentFilterCategories.get(book.categories.trim())))
+                setFilteredBooks(books.filter((book) => (book.state === "START" || book.state === "PROGRESS" || book.state === "DONE") && book.title.includes(searchQuery) && CurrentFilterCategories.get(book.category.trim())))
                 break;
             case "START":
-                setFilteredBooks(books.filter((book) => book.state === "START" && book.title.includes(searchQuery) && CurrentFilterCategories.get(book.categories.trim())))
+                setFilteredBooks(books.filter((book) => book.state === "START" && book.title.includes(searchQuery) && CurrentFilterCategories.get(book.category.trim())))
                 break;
             case "PROGRESS":
-                setFilteredBooks(books.filter((book) => book.state === "PROGRESS" && book.title.includes(searchQuery) && CurrentFilterCategories.get(book.categories.trim())))
+                setFilteredBooks(books.filter((book) => book.state === "PROGRESS" && book.title.includes(searchQuery) && CurrentFilterCategories.get(book.category.trim())))
                 break;
             case "DONE":
-                setFilteredBooks(books.filter((book) => book.state === "DONE" && book.title.includes(searchQuery) && CurrentFilterCategories.get(book.categories.trim())))
+                setFilteredBooks(books.filter((book) => book.state === "DONE" && book.title.includes(searchQuery) && CurrentFilterCategories.get(book.category.trim())))
                 break;
         }
+        
     }  
     
 
@@ -76,18 +81,22 @@ const ReadList = ({searchParams}: {searchParams: Request}) => {
 
         setCurrentFilterCategories(categoryList);
 
+        if(!books){
+            return;
+        }
+
         switch(currentFilterColumn){
             case "ALL": 
-                setFilteredBooks(books.filter((book) => (book.state === "START" || book.state === "PROGRESS" || book.state === "DONE") && book.title.includes(searchQuery) && categoryList.get(book.categories.trim())))
+                setFilteredBooks(books.filter((book) => (book.state === "START" || book.state === "PROGRESS" || book.state === "DONE") && book.title.includes(searchQuery) && categoryList.get(book.category.trim())))
                 break;
             case "START":
-                setFilteredBooks(books.filter((book) => book.state === "START" && book.title.includes(searchQuery) && categoryList.get(book.categories.trim())))
+                setFilteredBooks(books.filter((book) => book.state === "START" && book.title.includes(searchQuery) && categoryList.get(book.category.trim())))
                 break;
             case "PROGRESS":
-                setFilteredBooks(books.filter((book) => book.state === "PROGRESS" && book.title.includes(searchQuery) && categoryList.get(book.categories.trim())))
+                setFilteredBooks(books.filter((book) => book.state === "PROGRESS" && book.title.includes(searchQuery) && categoryList.get(book.category.trim())))
                 break;
             case "DONE":
-                setFilteredBooks(books.filter((book) => book.state === "DONE" && book.title.includes(searchQuery) && categoryList.get(book.categories.trim())))
+                setFilteredBooks(books.filter((book) => book.state === "DONE" && book.title.includes(searchQuery) && categoryList.get(book.category.trim())))
                 break;
         }
     }  

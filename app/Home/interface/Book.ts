@@ -4,10 +4,11 @@ export interface Book{
     thumbnail: string,
     description: string,
     authors: string, 
-    categories: string, 
+    category: string, 
     pageCount: number, 
     publisher:string, 
     publishedDate: string,
     state: "START" | "PROGRESS" | "DONE", 
-    timestamp: number
+    timestamp: number,
+    avg_review: number
 }  

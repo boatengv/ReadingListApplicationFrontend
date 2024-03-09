@@ -33,9 +33,14 @@ const RegisterForm = () => {
         const hashed_password = hashSync(password, salt);
 
         {/*Register Account*/}
-        fetch(`http://localhost:8080/api/AddStudent?name=${fullName}&email=${email}&password=${hashed_password}&salt=${salt}`,{
+        fetch("http://localhost:8080/api/AddStudent",{
             method: "POST",
-            mode: "cors",
+            body: JSON.stringify({
+                name: fullName,
+                email: email,
+                password: password, 
+                salt: salt
+            }),
             headers: {
                 "Content-Type": "application/json",
             }

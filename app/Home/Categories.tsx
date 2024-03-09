@@ -1,6 +1,7 @@
 export const listOfCategories = new Map<string, boolean>();
 listOfCategories.set('Acting',true);
 listOfCategories.set('Advertising',true);
+listOfCategories.set('African American businesspeople',true);
 listOfCategories.set('Business',true);
 listOfCategories.set('Business & Economics',true);
 listOfCategories.set('Computers',true);
